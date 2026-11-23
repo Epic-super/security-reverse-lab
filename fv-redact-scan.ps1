@@ -26,14 +26,20 @@ foreach ($f in $files) {
     } catch { continue }
     if (-not $content) { continue }
 
-    # Skip the redaction template itself -- it intentionally contains example sensitive values
-    $isTemplate = $f.FullName -match 'PROMPT-single-dialog-summary\.md$'
+    # The prompt templates intentionally contain synthetic examples of sensitive values
+    $isTemplate = $f.FullName -match 'PROMPT-single-dialog-summary\.md$|PROMPT-combos\.md$'
 
     $lines = $content -split "`r?`n"
+    $inExample = $false
     for ($i = 0; $i -lt $lines.Count; $i++) {
         $l = $lines[$i]
         if ($l.Trim().Length -eq 0) { continue }
         if ($isTemplate) { continue }
+
+        # Regions marked with these markers are demo samples, not real data
+        if ($l -match '<!--\s*redact-scan:\s*skip\s*-->') { $inExample = $true; continue }
+        if ($l -match '<!--\s*redact-scan:\s*end\s*-->') { $inExample = $false; continue }
+        if ($inExample) { continue }
 
         # credentials
         if ($l -match '(ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|gho_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|sk-[A-Za-z0-9]{32,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)') {

@@ -247,4 +247,8 @@ powershell -ExecutionPolicy Bypass -File fv-redact-scan.ps1
 
 5 类检测：凭据 / 邮箱 / 内网 IP / 用户名路径 / 业务域名。已用假样本校准，当前仓库 **CLEAN**。
 
-> **顺序不能反**：先把"不能说的"变成"看不见的"，再从剩下的对话里挑出"下次还用得上的"。
+**完整流程见 [`_templates/REDACTION-WORKFLOW.md`](./_templates/REDACTION-WORKFLOW.md)** —— 三层门禁：
+AI 写作时脱敏 → 本地扫描复核 → pre-commit 钩子拦截 → GitHub Actions 兜底。
+
+> **扫描器认不出的**：身份线索、少见公司名、业务逻辑泄漏、截图里的信息、commit message。
+> 这些靠**人工复核清单**。机器能查格式，查不出"这句话会不会暴露你"。
