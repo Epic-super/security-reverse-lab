@@ -153,5 +153,62 @@ git push origin main
 ## 5. 索引
 
 - [ROADMAP.md](./ROADMAP.md) —— **先看这个**，12 周学习与产出路线
+- [WEEKLY.md](./WEEKLY.md) —— 每周执行节奏，防止"又没方向"
 - [CONTRIBUTING.md](./CONTRIBUTING.md) —— 怎么往里加东西
 - [TEMPLATES/](./_templates/) —— writeup / 逆向笔记 / 靶场记录模板
+- [**PROMPTS.md**](./_templates/PROMPTS.md) —— **把对话流水账变成小白能看懂、能复现的文章**
+---
+
+## 6. 写作流程（对话 → 文章）
+
+```
+对话流水账
+   │
+   ├─ 1. 起稿：fv-draft.ps1 -Type reverse|vuln|lab|writeup -Title "..."
+   │      → 生成 README.md（正文骨架）+ notes.md（过程）+ artifacts/
+   │
+   ├─ 2. 让 AI 写：复制 _templates/PROMPTS.md 里对应方向的提示词，
+   │      粘到「你当时做这件事的那个对话」里，连同你的过程一起
+   │      → 它输出完整文章
+   │
+   ├─ 3. 审稿：复制「自检清单」提示词 + 文章正文，开新对话
+   │      → 逐条挑毛病
+   │
+   ├─ 4. 修补：把审稿意见发回第 2 步的对话，让它改
+   │
+   └─ 5. 归档：文章进 README.md，过程留在 notes.md，脚本进 artifacts/
+```
+
+一键起稿：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File fv-draft.ps1 -Type reverse -Title "NSIS 壳脱壳过程"
+powershell -ExecutionPolicy Bypass -File fv-draft.ps1 -Type vuln    -Title "JWT kid injection"
+powershell -ExecutionPolicy Bypass -File fv-draft.ps1 -Type lab     -Title "DC-3"
+powershell -ExecutionPolicy Bypass -File fv-draft.ps1 -Type writeup -Title "first bounty report"
+```
+
+---
+
+## 7. 单个对话 → 价值提炼（脱敏优先）
+
+> 场景：你有一个做完就归档的对话，里面有方法、有原理、有弯路，
+> 但也混着真实域名、真实 token、内部系统信息。
+
+**用 [`_templates/PROMPT-single-dialog-summary.md`](./_templates/PROMPT-single-dialog-summary.md)**，
+里面有三块：
+
+| 块 | 用途 |
+|---|---|
+| **主提示词** | 贴到那个对话末尾 → 输出完整脱敏技术沉淀 + 替换对照表 |
+| **变体 A** | 只提炼方法论（判断流程 / 关键信号 / 检查清单），不写文章 |
+| **变体 B** | 文章已经写好了，只做脱敏改写，不动技术内容 |
+
+**脱敏是硬门禁**，提示词里内置了：
+
+- 13 类信息的替换表（域名、IP、token、人名、公司、内部系统、文件路径用户名……）
+- 「不确定算不算隐私就替换掉」的兜底规则
+- 「⚠️ 需要我确认」清单 —— AI 拿不准的内容单独拎出来给你定夺，不擅自写进去
+- 发布前的自查 grep 命令（凭据 / 邮箱 / 内网 IP / 业务域名）
+
+> **顺序不能反**：先把"不能说的"变成"看不见的"，再从剩下的对话里挑出"下次还用得上的"。
