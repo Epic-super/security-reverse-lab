@@ -43,7 +43,7 @@
 ## 提交前自检
 
 ```bash
-grep -rInE "(ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----|3315874081@qq.com)" . --exclude-dir=.git
+grep -rInE "(ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)" . --exclude-dir=.git
 ```
 
 任何命中 → 先改成 `<REDACTED>` 再提交。CI 也会跑同样的检查。
