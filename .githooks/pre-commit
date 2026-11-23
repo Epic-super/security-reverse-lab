@@ -1,0 +1,39 @@
+#!/bin/sh
+# pre-commit hook: block commits containing sensitive information
+# Runs the same checks as fv-redact-scan.ps1 before anything is recorded in history.
+#
+# To bypass for a one-off (e.g. committing the redaction template itself):
+#   git commit --no-verify
+
+set -e
+
+ROOT="$(git rev-parse --show-toplevel)"
+SCAN="$ROOT/fv-redact-scan.ps1"
+
+if [ ! -f "$SCAN" ]; then
+    echo "pre-commit: fv-redact-scan.ps1 not found, skipping scan"
+    exit 0
+fi
+
+# Look for a PowerShell that can run the scan
+PS=""
+for c in pwsh powershell; do
+    if command -v "$c" >/dev/null 2>&1; then PS="$c"; break; fi
+done
+
+if [ -z "$PS" ]; then
+    echo "pre-commit: no PowerShell found, skipping scan"
+    exit 0
+fi
+
+echo "pre-commit: running redaction scan..."
+if "$PS" -ExecutionPolicy Bypass -File "$SCAN" -Path "$ROOT"; then
+    echo "pre-commit: redaction scan passed"
+    exit 0
+else
+    echo ""
+    echo "pre-commit: BLOCKED -- sensitive content detected."
+    echo "  Fix the items listed above (replace with TARGET / TARGET_IP / <REDACTED> / USER_HOME)."
+    echo "  If this is intentional and safe, commit with: git commit --no-verify"
+    exit 1
+fi
