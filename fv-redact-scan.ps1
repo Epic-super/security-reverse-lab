@@ -60,7 +60,7 @@ foreach ($f in $files) {
         # business hostname: require a plausible domain shape and a real-ish TLD
         $domRe = '(?<![\w.-])([a-z0-9][a-z0-9-]{0,62}\.){1,3}(com|cn|net|org|io|top|xyz|cc|vip|co|me|dev|app|cloud|site|tech)(?![\w-])'
         if ($l -match $domRe -and
-            $l -notmatch 'example\.(com|org|net)|com\.example\.app|github\.com|githubusercontent\.com|github\.io|localhost|w3\.org|apache\.org|gnu\.org|python\.org|nist\.gov|owasp\.org|pentestmonkey\.com|portswigger\.net|readthedocs\.io|shields\.io|Encoding\.UTF8|UTF8Encoding|Text\.Encoding|@qq\.com') {
+            $l -notmatch 'example\.(com|org|net)|com\.example\.app|github\.com|githubusercontent\.com|github\.io|localhost|w3\.org|apache\.org|gnu\.org|python\.org|nist\.gov|owasp\.org|pentestmonkey\.com|portswigger\.net|readthedocs\.io|shields\.io|Encoding\.UTF8|UTF8Encoding|Text\.Encoding|@qq\.com|asp\.net|ASP\.NET|aspnet') {
             Add-Hit $f.FullName ($i+1) $l "external-host"
         }
     }
