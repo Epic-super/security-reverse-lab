@@ -3,7 +3,7 @@
 > 一个把**逆向分析**和**漏洞挖掘**并排放的公开笔记本。
 > 目标：让每一次挖洞、每一个脱壳、每一个复现都留下**可检索、可复用、可复现**的沉淀。
 
-[![repo](https://img.shields.io/badge/repo-FelixVec%2FFelixVec--notes-blue)](https://github.com/FelixVec)
+[![repo](https://img.shields.io/badge/repo-Epic--super%2Fsecurity--reverse--lab-blue)](https://github.com/Epic-super/security-reverse-lab)
 [![license](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 ![lang](https://img.shields.io/badge/content-CN%2FEN-lightgrey)
 
@@ -137,12 +137,12 @@ lab(03-labs/01-vulnhub): DC-3 提权路径整理
 ## 4. 本地使用
 
 ```bash
-# 克隆（SSH 通道，见 README 的"通道"章节）
-git clone git@github.com:FelixVec/FelixVec-notes.git
+# 克隆（SSH 通道，current: github-epic alias）
+git clone git@github-epic:Epic-super/security-reverse-lab.git
 
 # 提交署名用 GitHub noreply 邮箱，避免把真实邮箱写进 commit
-git config user.name  "FelixVec"
-git config user.email "250156135+felixvec@users.noreply.github.com"
+git config user.name  "Epic-super"
+git config user.email "215370993+Epic-super@users.noreply.github.com"
 
 # 推送
 git push origin main

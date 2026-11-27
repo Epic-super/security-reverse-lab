@@ -17,7 +17,7 @@
 
 ```text
 📌 在做的事
-   [FelixVec-notes](https://github.com/FelixVec/FelixVec-notes) —— 逆向与漏洞挖掘知识库
+   [security-reverse-lab](https://github.com/Epic-super/security-reverse-lab) —— 逆向与漏洞挖掘知识库
 ```
 
 ```text

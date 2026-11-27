@@ -1,7 +1,7 @@
 <#
-  FelixVec GitHub channel helper
+  GitHub channel helper (active: Epic-super / security-reverse-lab)
   Usage:
-    fv-git.ps1 push    -> push main to FelixVec repo over SSH
+    fv-git.ps1 push    -> push main to the active repo over SSH
     fv-git.ps1 publish -> create the GitHub repo + push (needs token)
     fv-git.ps1 status  -> show channel status
     fv-git.ps1 doctor  -> diagnose ssh/auth
@@ -9,9 +9,9 @@
 
 $ErrorActionPreference = "Stop"
 $Repo    = "D:\Desktop\FelixVec-Git"
-$Remote  = "git@github-felixvec:FelixVec/FelixVec-notes.git"
-$Alias   = "github-felixvec"
-$KeyFile = "$env:USERPROFILE\.ssh\id_ed25519_felixvec"
+$Remote  = "git@github-epic:Epic-super/security-reverse-lab.git"
+$Alias   = "github-epic"
+$KeyFile = "$env:USERPROFILE\.ssh\id_ed25519"
 
 function Write-Step($m) { Write-Host "`n>> $m" -ForegroundColor Cyan }
 function Write-Ok($m)   { Write-Host "   [OK] $m" -ForegroundColor Green }
@@ -42,7 +42,7 @@ function Test-SshAuth {
 switch ($args[0]) {
 
 "status" {
-    Write-Step "FelixVec channel status"
+    Write-Step "GitHub channel status"
     Write-Host "   repo path : $Repo"
     Write-Host "   remote    : $Remote"
     Write-Host "   ssh alias : $Alias"
@@ -53,7 +53,7 @@ switch ($args[0]) {
     Get-Content "$KeyFile.pub"
     Write-Host ""
     Write-Host "   [ssh config entries]"
-    Select-String -Path "$env:USERPROFILE\.ssh\config" -Pattern "github-felixvec" -Context 0,5 | ForEach-Object { $_.Line; $_.Context.PostContext }
+    Select-String -Path "$env:USERPROFILE\.ssh\config" -Pattern "github-epic" -Context 0,5 | ForEach-Object { $_.Line; $_.Context.PostContext }
     Test-SshAuth | Out-Null
 }
 
@@ -84,7 +84,7 @@ switch ($args[0]) {
         git push -u origin main 2>&1 | ForEach-Object { "   $_" }
         Write-Ok "pushed to $Remote"
     } else {
-        Write-Err "SSH channel not ready -- public key must be added to the FelixVec account."
+        Write-Err "SSH channel not ready -- public key must be added to the GitHub account."
     }
 }
 
@@ -115,7 +115,7 @@ switch ($args[0]) {
     }
 
     # 2) create repo
-    $repoName = "FelixVec-notes"
+    $repoName = "security-reverse-lab"
     try {
         $null = Invoke-RestMethod -Uri "$api/user/repos" -Method Post -Headers $h -Body @{
             name = $repoName; description = "Reverse engineering & vulnerability research notes"

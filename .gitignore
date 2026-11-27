@@ -46,6 +46,9 @@ secrets/
 *.pem
 !artifacts/**/README.md
 
+# 案例脚本的本地目标配置（含真实 IP/端口，绝不入库）
+target.local.json
+
 # 大文件（用 Git LFS）
 *.psd
 *.mp4

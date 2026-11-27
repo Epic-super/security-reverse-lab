@@ -196,7 +196,7 @@ GitHub 的第三方 OAuth 授权页会显示该 Google 账号的**姓名和头�
 |---|---|---|
 | 关联账号 | **只留 GitHub 自己的密码**，不关联 Google/Apple | 避免 OAuth 暴露姓名与邮箱 |
 | Profile Name | `FelixVec`（或 `Felix V.`） | 对外只暴露昵称 |
-| Profile Email | **GitHub noreply**：`250156135+felixvec@users.noreply.github.com` | commit 不带真邮箱 |
+| Profile Email | **GitHub noreply**：`215370993+Epic-super@users.noreply.github.com` | commit 不带真邮箱 |
 | Git config | 仓库内设 `user.email` = noreply | commit 历史不泄漏 |
 | `Keep my email addresses private` | 开 | GitHub 不公开你的真实邮箱 |
 | 2FA | 开（App + 硬件密钥） | 账号安全 |
